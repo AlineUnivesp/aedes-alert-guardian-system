@@ -32,19 +32,19 @@ const AuthButton = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="flex flex-col items-start">
             <span className="font-medium">{getUserTitle(user.points)}</span>
-            <span className="text-xs text-muted-foreground">{user.points} points</span>
+            <span className="text-xs text-muted-foreground">{user.points} pontos</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <a href="/my-reports" className="cursor-pointer">My Reports</a>
+            <a href="/my-reports" className="cursor-pointer">Minhas Denúncias</a>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Logout</span>
+            <span>Sair</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -55,7 +55,7 @@ const AuthButton = () => {
     <>
       <Button onClick={() => setIsAuthModalOpen(true)} variant="default">
         <LogIn className="mr-2 h-4 w-4" />
-        <span>Login</span>
+        <span>Entrar</span>
       </Button>
 
       <AuthModal 

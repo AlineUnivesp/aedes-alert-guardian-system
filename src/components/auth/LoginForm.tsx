@@ -25,8 +25,8 @@ const LoginForm = ({ onSuccess, onRegisterClick }: LoginFormProps) => {
       await login(email, password);
       onSuccess();
     } catch (error) {
-      // Error is handled in AuthContext
-      console.error("Login error:", error);
+      // Erro é tratado no AuthContext
+      console.error("Erro de login:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -47,7 +47,7 @@ const LoginForm = ({ onSuccess, onRegisterClick }: LoginFormProps) => {
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Senha</Label>
         <Input
           id="password"
           type="password"
@@ -65,24 +65,24 @@ const LoginForm = ({ onSuccess, onRegisterClick }: LoginFormProps) => {
         {isSubmitting ? (
           <span className="flex items-center gap-2">
             <span className="h-4 w-4 rounded-full border-2 border-b-transparent animate-spin"></span>
-            Logging in...
+            Entrando...
           </span>
         ) : (
           <span className="flex items-center gap-2">
             <LogIn className="h-4 w-4" />
-            Login
+            Entrar
           </span>
         )}
       </Button>
       <div className="mt-4 text-center text-sm">
         <p>
-          Don't have an account?{" "}
+          Não tem uma conta?{" "}
           <button
             type="button"
             className="text-primary-600 hover:text-primary-800 font-medium"
             onClick={onRegisterClick}
           >
-            Register now
+            Cadastre-se agora
           </button>
         </p>
       </div>

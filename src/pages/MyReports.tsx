@@ -15,7 +15,7 @@ const MyReports = () => {
   const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect if not authenticated
+  // Redirecionar se não estiver autenticado
   useEffect(() => {
     if (!isAuthenticated && !isLoading) {
       navigate("/");
@@ -37,8 +37,8 @@ const MyReports = () => {
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">My Reports</h1>
-            <p className="text-muted-foreground mt-2">Manage all your Aedes breeding site reports</p>
+            <h1 className="text-3xl font-bold">Minhas Denúncias</h1>
+            <p className="text-muted-foreground mt-2">Gerencie todas as suas denúncias de focos do Aedes</p>
           </div>
           
           <Button 
@@ -46,7 +46,7 @@ const MyReports = () => {
             className="gap-2"
           >
             <Plus className="h-4 w-4" />
-            New Report
+            Nova Denúncia
           </Button>
         </div>
         
@@ -60,7 +60,7 @@ const MyReports = () => {
               <ReportList 
                 reports={userReports}
                 showActions
-                emptyMessage="You haven't reported any breeding sites yet. Start contributing now!"
+                emptyMessage="Você ainda não denunciou nenhum foco. Comece a contribuir agora!"
               />
             )}
           </div>

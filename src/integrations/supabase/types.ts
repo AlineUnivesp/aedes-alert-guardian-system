@@ -9,7 +9,74 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          points: number
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          name: string
+          points?: number
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          points?: number
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          address: string
+          created_at: string
+          description: string
+          id: string
+          image_url: string | null
+          latitude: number
+          longitude: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          created_at?: string
+          description: string
+          id?: string
+          image_url?: string | null
+          latitude: number
+          longitude: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          description?: string
+          id?: string
+          image_url?: string | null
+          latitude?: number
+          longitude?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -38,10 +38,10 @@ interface ReportDialogProps {
 
 const formSchema = z.object({
   title: z.string().min(5, {
-    message: "Title must be at least 5 characters.",
+    message: "O título deve ter pelo menos 5 caracteres.",
   }),
   description: z.string().min(10, {
-    message: "Description must be at least 10 characters.",
+    message: "A descrição deve ter pelo menos 10 caracteres.",
   }),
   latitude: z.number(),
   longitude: z.number(),
@@ -78,10 +78,10 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
       form.setValue("longitude", position.longitude);
       form.setValue("address", address);
       
-      toast.success("Location found successfully!");
+      toast.success("Localização encontrada com sucesso!");
     } catch (error) {
-      console.error("Error getting location:", error);
-      toast.error("Failed to get your location. Please enter manually.");
+      console.error("Erro ao obter localização:", error);
+      toast.error("Falha ao obter sua localização. Por favor, insira manualmente.");
     } finally {
       setLoadingLocation(false);
     }
@@ -92,7 +92,7 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
     if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image must be smaller than 5MB");
+      toast.error("A imagem deve ter menos de 5MB");
       return;
     }
 
@@ -121,7 +121,7 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
       form.reset();
       setImagePreview(null);
     } catch (error) {
-      console.error("Error submitting report:", error);
+      console.error("Erro ao enviar denúncia:", error);
     }
   };
 
@@ -137,9 +137,9 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl">Report Aedes Breeding Site</DialogTitle>
+          <DialogTitle className="text-xl">Denunciar Foco do Aedes</DialogTitle>
           <DialogDescription>
-            Fill in the details about the mosquito breeding site you found.
+            Preencha os detalhes sobre o foco do mosquito que você encontrou.
           </DialogDescription>
         </DialogHeader>
 
@@ -150,10 +150,10 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Título</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="E.g., Standing water in abandoned lot"
+                      placeholder="Ex: Água parada em terreno abandonado"
                       {...field}
                       disabled={isSubmitting}
                     />
@@ -168,10 +168,10 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Descrição</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Provide details about the breeding site"
+                      placeholder="Forneça detalhes sobre o foco encontrado"
                       className="resize-none min-h-[100px]"
                       {...field}
                       disabled={isSubmitting}
@@ -186,7 +186,7 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
               <CardContent className="pt-4">
                 <div className="grid gap-4">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-sm font-medium">Location</h3>
+                    <h3 className="text-sm font-medium">Localização</h3>
                     <Button
                       type="button"
                       variant="outline"
@@ -197,12 +197,12 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
                       {loadingLocation ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Getting location...
+                          Obtendo localização...
                         </>
                       ) : (
                         <>
                           <MapPin className="mr-2 h-4 w-4" />
-                          Use my location
+                          Usar minha localização
                         </>
                       )}
                     </Button>
@@ -255,7 +255,7 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address</FormLabel>
+                        <FormLabel>Endereço</FormLabel>
                         <FormControl>
                           <Input {...field} disabled={isSubmitting} />
                         </FormControl>
@@ -268,13 +268,13 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
             </Card>
 
             <div className="space-y-2">
-              <FormLabel>Image (Optional)</FormLabel>
+              <FormLabel>Imagem (Opcional)</FormLabel>
               <div className="flex items-center gap-4">
                 <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-muted/50">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <Upload className="w-8 h-8 mb-2 text-gray-500" />
-                    <p className="text-sm text-gray-500">Click to upload image</p>
-                    <p className="text-xs text-gray-500">PNG, JPG (max 5MB)</p>
+                    <p className="text-sm text-gray-500">Clique para enviar imagem</p>
+                    <p className="text-xs text-gray-500">PNG, JPG (máx 5MB)</p>
                   </div>
                   <Input
                     type="file"
@@ -289,7 +289,7 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
                   <div className="relative h-32 w-32">
                     <img
                       src={imagePreview}
-                      alt="Preview"
+                      alt="Prévia"
                       className="h-full w-full object-cover rounded-lg"
                     />
                     <Button
@@ -317,14 +317,14 @@ const ReportDialog = ({ isOpen, onClose }: ReportDialogProps) => {
                 onClick={onClose}
                 disabled={isSubmitting}
               >
-                Cancel
+                Cancelar
               </Button>
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
               >
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Submit Report
+                Enviar Denúncia
               </Button>
             </DialogFooter>
           </form>

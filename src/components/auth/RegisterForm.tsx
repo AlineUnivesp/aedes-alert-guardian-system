@@ -22,11 +22,11 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
 
   const validatePassword = () => {
     if (password !== confirmPassword) {
-      setPasswordError("Passwords don't match");
+      setPasswordError("As senhas não coincidem");
       return false;
     }
     if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
+      setPasswordError("A senha deve ter pelo menos 6 caracteres");
       return false;
     }
     setPasswordError("");
@@ -46,8 +46,8 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
       await register(name, email, password);
       onSuccess();
     } catch (error) {
-      // Error is handled in AuthContext
-      console.error("Registration error:", error);
+      // Erro é tratado no AuthContext
+      console.error("Erro de registro:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -56,13 +56,13 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nome</Label>
         <Input
           id="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
+          placeholder="Seu nome"
           required
           disabled={isSubmitting}
         />
@@ -80,7 +80,7 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">Senha</Label>
         <Input
           id="password"
           type="password"
@@ -91,7 +91,7 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
+        <Label htmlFor="confirmPassword">Confirmar Senha</Label>
         <Input
           id="confirmPassword"
           type="password"
@@ -113,24 +113,24 @@ const RegisterForm = ({ onSuccess, onLoginClick }: RegisterFormProps) => {
         {isSubmitting ? (
           <span className="flex items-center gap-2">
             <span className="h-4 w-4 rounded-full border-2 border-b-transparent animate-spin"></span>
-            Registering...
+            Registrando...
           </span>
         ) : (
           <span className="flex items-center gap-2">
             <User className="h-4 w-4" />
-            Register
+            Cadastrar
           </span>
         )}
       </Button>
       <div className="mt-4 text-center text-sm">
         <p>
-          Already have an account?{" "}
+          Já tem uma conta?{" "}
           <button
             type="button"
             className="text-primary-600 hover:text-primary-800 font-medium"
             onClick={onLoginClick}
           >
-            Login instead
+            Faça login
           </button>
         </p>
       </div>

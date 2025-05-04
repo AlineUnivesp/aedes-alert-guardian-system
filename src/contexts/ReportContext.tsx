@@ -1,7 +1,10 @@
+
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { toast } from "@/components/ui/sonner";
 import { calculatePoints, getUserTitle } from "@/lib/gamification";
+import { supabase } from "@/integrations/supabase/client";
+import { v4 as uuidv4 } from "uuid";
 
 export type Report = {
   id: string;
@@ -31,136 +34,169 @@ interface ReportContextType {
 
 const ReportContext = createContext<ReportContextType | undefined>(undefined);
 
-// Mock data for reports
-const initialReports: Report[] = [
-  {
-    id: "1",
-    title: "Water container in abandoned lot",
-    description: "Found multiple containers collecting rainwater in abandoned construction site",
-    location: {
-      latitude: -23.5505,
-      longitude: -46.6333,
-      address: "Av. Paulista, 1000, São Paulo - SP"
-    },
-    imageUrl: "https://via.placeholder.com/300x200.png?text=Breeding+Site",
-    createdAt: "2025-04-28T15:30:45Z",
-    userId: "1",
-    userName: "Demo User"
-  },
-  {
-    id: "2",
-    title: "Clogged gutter",
-    description: "Clogged rain gutter with standing water on residential building",
-    location: {
-      latitude: -23.5605,
-      longitude: -46.6433,
-      address: "Rua Augusta, 500, São Paulo - SP"
-    },
-    createdAt: "2025-04-27T10:15:30Z",
-    userId: "1",
-    userName: "Demo User"
-  },
-  {
-    id: "3",
-    title: "Discarded tires collecting water",
-    description: "Several old tires collecting rainwater behind auto repair shop",
-    location: {
-      latitude: -23.5305,
-      longitude: -46.6233,
-      address: "Av. Rebouças, 750, São Paulo - SP"
-    },
-    imageUrl: "https://via.placeholder.com/300x200.png?text=Tire+Breeding+Site",
-    createdAt: "2025-04-26T08:45:20Z",
-    userId: "1",
-    userName: "Demo User"
-  }
-];
-
 export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [reports, setReports] = useState<Report[]>(initialReports);
+  const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   
-  // Filter reports for the current user
+  // Filtrar relatórios do usuário atual
   const userReports = reports.filter(report => report.userId === user?.id);
 
+  // Carregar todos os relatórios ao iniciar
   useEffect(() => {
-    // Load reports from localStorage if available
-    const savedReports = localStorage.getItem("reports");
-    if (savedReports) {
-      setReports(JSON.parse(savedReports));
-    }
-    setIsLoading(false);
+    fetchAllReports();
   }, []);
 
-  // Save reports to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("reports", JSON.stringify(reports));
-  }, [reports]);
+  // Converter dados do Supabase para o formato Report
+  const mapDbReportToReport = async (dbReport: any): Promise<Report> => {
+    // Buscar informações do usuário que criou o relatório
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("name")
+      .eq("id", dbReport.user_id)
+      .single();
+    
+    if (profileError) {
+      console.error("Erro ao buscar nome do usuário:", profileError);
+    }
+
+    return {
+      id: dbReport.id,
+      title: dbReport.title,
+      description: dbReport.description,
+      location: {
+        latitude: dbReport.latitude,
+        longitude: dbReport.longitude,
+        address: dbReport.address,
+      },
+      imageUrl: dbReport.image_url,
+      createdAt: dbReport.created_at,
+      userId: dbReport.user_id,
+      userName: profileData?.name || "Usuário",
+    };
+  };
 
   const fetchAllReports = async () => {
     setIsLoading(true);
     try {
-      // In a real app, this would be an API call
-      // For now, we'll just use our state since it's already loaded
-      await new Promise(resolve => setTimeout(resolve, 500));
+      const { data: dbReports, error } = await supabase
+        .from("reports")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      if (dbReports) {
+        const reportPromises = dbReports.map(mapDbReportToReport);
+        const mappedReports = await Promise.all(reportPromises);
+        setReports(mappedReports);
+      }
+    } catch (error: any) {
+      console.error("Erro ao buscar relatórios:", error);
+      toast.error("Erro ao carregar relatórios: " + error.message);
+    } finally {
       setIsLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch reports:", error);
-      toast.error("Failed to load reports");
-      setIsLoading(false);
-      throw error;
     }
   };
 
   const addReport = async (reportData: Omit<Report, "id" | "createdAt" | "userId" | "userName">) => {
     if (!user) {
-      toast.error("You must be logged in to report a breeding site");
-      throw new Error("User not authenticated");
+      toast.error("Você precisa estar logado para denunciar um foco de mosquito");
+      throw new Error("Usuário não autenticado");
     }
     
     setIsLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      let imageUrl = reportData.imageUrl;
       
-      const newReport: Report = {
-        ...reportData,
-        id: (reports.length + 1).toString(),
-        createdAt: new Date().toISOString(),
-        userId: user.id,
-        userName: user.name
-      };
-      
-      setReports(prevReports => [...prevReports, newReport]);
-      
-      // Update user points
-      const userData = JSON.parse(localStorage.getItem("user") || "{}");
-      const newPoints = userData.points + 1;
-      
-      // Calculate bonus points
-      const bonusPoints = calculatePoints(newPoints) - newPoints;
-      const totalNewPoints = newPoints + bonusPoints;
-      
-      // Update localStorage
-      userData.points = totalNewPoints;
-      localStorage.setItem("user", JSON.stringify(userData));
-      
-      // Show success message
-      if (bonusPoints > 0) {
-        toast.success(`Report added! +1 point. Bonus: +${bonusPoints} points!`);
-      } else {
-        toast.success("Report added successfully! +1 point");
+      // Se houver uma imagem, fazer upload para o Storage
+      if (imageUrl && imageUrl.startsWith('data:image')) {
+        const fileExt = imageUrl.split(';')[0].split('/')[1];
+        const fileName = `${user.id}/${uuidv4()}.${fileExt}`;
+        const filePath = `${fileName}`;
+        
+        // Converter base64 para arquivo
+        const base64Data = imageUrl.split(',')[1];
+        const dataBuffer = Buffer.from(base64Data, 'base64');
+        
+        // Upload da imagem
+        const { data: storageData, error: storageError } = await supabase.storage
+          .from('reports')
+          .upload(filePath, dataBuffer, {
+            contentType: `image/${fileExt}`,
+            upsert: true
+          });
+          
+        if (storageError) {
+          throw storageError;
+        }
+        
+        // Obter URL pública da imagem
+        const { data: { publicUrl } } = supabase.storage
+          .from('reports')
+          .getPublicUrl(filePath);
+          
+        imageUrl = publicUrl;
       }
       
-      // If user object is from context, we need to update it there
-      if (user && "points" in user) {
-        // @ts-ignore - This is a hack for our demo
-        user.points = totalNewPoints;
+      // Salvar relatório no banco de dados
+      const { data, error } = await supabase
+        .from("reports")
+        .insert({
+          title: reportData.title,
+          description: reportData.description,
+          latitude: reportData.location.latitude,
+          longitude: reportData.location.longitude,
+          address: reportData.location.address,
+          image_url: imageUrl,
+          user_id: user.id
+        })
+        .select()
+        .single();
+        
+      if (error) {
+        throw error;
       }
       
-    } catch (error) {
-      toast.error("Failed to add report: " + (error instanceof Error ? error.message : "Unknown error"));
+      if (!data) {
+        throw new Error("Erro ao criar denúncia");
+      }
+      
+      // Atualizar pontos do usuário
+      if (user.id) {
+        const newPoints = user.points + 1;
+        const bonusPoints = calculatePoints(newPoints) - newPoints;
+        const totalNewPoints = newPoints + bonusPoints;
+        
+        const { error: updateError } = await supabase
+          .from("profiles")
+          .update({ points: totalNewPoints })
+          .eq("id", user.id);
+          
+        if (updateError) {
+          console.error("Erro ao atualizar pontos:", updateError);
+        } else {
+          // Atualizar usuário local
+          if (user) {
+            user.points = totalNewPoints;
+          }
+          
+          // Mostrar mensagem de sucesso
+          if (bonusPoints > 0) {
+            toast.success(`Denúncia adicionada! +1 ponto. Bônus: +${bonusPoints} pontos!`);
+          } else {
+            toast.success("Denúncia adicionada com sucesso! +1 ponto");
+          }
+        }
+      }
+      
+      // Recarregar relatórios para atualizar a lista
+      await fetchAllReports();
+      
+    } catch (error: any) {
+      toast.error("Erro ao adicionar denúncia: " + error.message);
       throw error;
     } finally {
       setIsLoading(false);
@@ -169,30 +205,53 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const deleteReport = async (id: string) => {
     if (!user) {
-      toast.error("You must be logged in to delete a report");
-      throw new Error("User not authenticated");
+      toast.error("Você precisa estar logado para excluir uma denúncia");
+      throw new Error("Usuário não autenticado");
     }
     
     setIsLoading(true);
     try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Verificar se o relatório existe e pertence ao usuário
+      const report = reports.find(r => r.id === id);
       
-      // Check if report exists and belongs to user
-      const reportToDelete = reports.find(r => r.id === id);
-      
-      if (!reportToDelete) {
-        throw new Error("Report not found");
+      if (!report) {
+        throw new Error("Denúncia não encontrada");
       }
       
-      if (reportToDelete.userId !== user.id) {
-        throw new Error("You can only delete your own reports");
+      if (report.userId !== user.id) {
+        throw new Error("Você só pode excluir suas próprias denúncias");
       }
       
+      // Se houver imagem, excluir do Storage
+      if (report.imageUrl) {
+        try {
+          const urlParts = report.imageUrl.split('/');
+          const fileName = urlParts[urlParts.length - 1];
+          const filePath = `${user.id}/${fileName}`;
+          
+          await supabase.storage
+            .from('reports')
+            .remove([filePath]);
+        } catch (storageError) {
+          console.error("Erro ao excluir imagem:", storageError);
+        }
+      }
+      
+      // Excluir relatório do banco de dados
+      const { error } = await supabase
+        .from("reports")
+        .delete()
+        .eq("id", id);
+        
+      if (error) {
+        throw error;
+      }
+      
+      // Atualizar estado local
       setReports(prevReports => prevReports.filter(report => report.id !== id));
-      toast.success("Report deleted successfully");
-    } catch (error) {
-      toast.error("Failed to delete report: " + (error instanceof Error ? error.message : "Unknown error"));
+      toast.success("Denúncia excluída com sucesso");
+    } catch (error: any) {
+      toast.error("Erro ao excluir denúncia: " + error.message);
       throw error;
     } finally {
       setIsLoading(false);
@@ -204,10 +263,9 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   };
 
   const exportReports = (format: "json" | "csv") => {
-    // Strip out user data for public exports
+    // Remover dados de usuário para exportações públicas
     const publicReports = reports.map(({ userId, userName, ...report }) => ({
       ...report,
-      // Include everything except user data
     }));
 
     let content: string;
@@ -219,8 +277,8 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       filename = `aedes-reports-${new Date().toISOString().split('T')[0]}.json`;
       type = "application/json";
     } else {
-      // Convert to CSV
-      const headers = "id,title,description,latitude,longitude,address,imageUrl,createdAt\n";
+      // Converter para CSV
+      const headers = "id,titulo,descricao,latitude,longitude,endereco,imagem,data_criacao\n";
       const rows = publicReports.map(r => 
         `${r.id},"${r.title}","${r.description}",${r.location.latitude},${r.location.longitude},"${r.location.address}","${r.imageUrl || ""}","${r.createdAt}"`
       ).join("\n");
@@ -229,7 +287,7 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       type = "text/csv";
     }
 
-    // Create and trigger download
+    // Criar e acionar download
     const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -240,7 +298,7 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     
-    toast.success(`Reports exported as ${format.toUpperCase()}`);
+    toast.success(`Relatórios exportados como ${format.toUpperCase()}`);
   };
 
   return (
@@ -262,7 +320,7 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 export const useReports = () => {
   const context = useContext(ReportContext);
   if (context === undefined) {
-    throw new Error("useReports must be used within a ReportProvider");
+    throw new Error("useReports deve ser usado dentro de um ReportProvider");
   }
   return context;
 };

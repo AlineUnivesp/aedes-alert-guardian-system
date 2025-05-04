@@ -27,7 +27,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold">Dashboard</h2>
+        <h2 className="text-2xl font-bold">Painel</h2>
         
         <Button 
           onClick={() => setIsReportDialogOpen(true)}
@@ -35,27 +35,27 @@ const Dashboard = () => {
           disabled={!isAuthenticated}
         >
           <Plus className="h-4 w-4" />
-          Report Breeding Site
+          Denunciar Foco
         </Button>
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard 
-          title="Total Reports"
+          title="Total de Denúncias"
           value={totalReports}
-          description="All time"
+          description="Desde o início"
           icon={<ListChecks className="h-4 w-4" />}
         />
         <StatCard 
-          title="Recent Reports"
+          title="Denúncias Recentes"
           value={recentReports}
-          description="Last 30 days"
+          description="Últimos 30 dias"
           icon={<AlertTriangle className="h-4 w-4" />}
         />
         <StatCard 
-          title="Locations"
+          title="Localizações"
           value={reports.length}
-          description="Monitored areas"
+          description="Áreas monitoradas"
           icon={<MapPin className="h-4 w-4" />}
         />
       </div>
@@ -64,8 +64,8 @@ const Dashboard = () => {
         <div className="lg:col-span-2">
           <Tabs defaultValue="map">
             <TabsList className="grid grid-cols-2 w-[200px] mb-4">
-              <TabsTrigger value="map">Map</TabsTrigger>
-              <TabsTrigger value="list">List</TabsTrigger>
+              <TabsTrigger value="map">Mapa</TabsTrigger>
+              <TabsTrigger value="list">Lista</TabsTrigger>
             </TabsList>
             <TabsContent value="map" className="h-[500px]">
               <MapView reports={reports} />
@@ -73,7 +73,7 @@ const Dashboard = () => {
             <TabsContent value="list">
               <ReportList 
                 reports={reports}
-                emptyMessage="No breeding sites reported yet. Be the first to report one!"
+                emptyMessage="Ainda não há denúncias de focos. Seja o primeiro a reportar!"
               />
             </TabsContent>
           </Tabs>

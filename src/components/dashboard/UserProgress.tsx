@@ -12,10 +12,10 @@ const UserProgress = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>User Progress</CardTitle>
+          <CardTitle>Progresso do Usuário</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">Login to track your progress</p>
+          <p className="text-muted-foreground">Entre para acompanhar seu progresso</p>
         </CardContent>
       </Card>
     );
@@ -27,10 +27,10 @@ const UserProgress = () => {
     <Card className="overflow-hidden">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-lg">Your Progress</CardTitle>
+          <CardTitle className="text-lg">Seu Progresso</CardTitle>
           <div className="flex items-center gap-1 text-amber-500">
             <Star className="h-4 w-4 fill-amber-500" />
-            <span className="font-bold">{user.points} points</span>
+            <span className="font-bold">{user.points} pontos</span>
           </div>
         </div>
       </CardHeader>
@@ -42,7 +42,7 @@ const UserProgress = () => {
         
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Progress to next title</span>
+            <span className="text-muted-foreground">Progresso para o próximo título</span>
             <span className="font-medium">{Math.round(progress.progress)}%</span>
           </div>
           <Progress value={progress.progress} />
@@ -51,14 +51,14 @@ const UserProgress = () => {
         <div className="mt-4 flex items-center gap-2">
           <Trophy className="h-5 w-5 text-amber-500" />
           <div>
-            <span className="text-sm text-muted-foreground">Next Title:</span>
+            <span className="text-sm text-muted-foreground">Próximo Título:</span>
             <h4 className="font-medium">{progress.nextTitle}</h4>
           </div>
         </div>
       </CardContent>
       <CardFooter>
         <p className="text-xs text-muted-foreground">
-          {progress.pointsToNext > 0 ? `${progress.pointsToNext} more points needed` : "Maximum level achieved!"}
+          {progress.pointsToNext > 0 ? `${progress.pointsToNext} pontos necessários` : "Nível máximo alcançado!"}
         </p>
       </CardFooter>
     </Card>

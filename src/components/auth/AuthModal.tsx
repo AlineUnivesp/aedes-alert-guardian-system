@@ -28,12 +28,12 @@ const AuthModal = ({ isOpen, onClose, defaultView = "login" }: AuthModalProps) =
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">
-            {view === "login" ? "Login" : "Create an Account"}
+            {view === "login" ? "Login" : "Criar uma Conta"}
           </DialogTitle>
           <DialogDescription className="text-center">
             {view === "login"
-              ? "Enter your credentials to access your account"
-              : "Sign up to join the fight against Aedes aegypti"}
+              ? "Digite suas credenciais para acessar sua conta"
+              : "Cadastre-se para se juntar ao combate ao Aedes aegypti"}
           </DialogDescription>
         </DialogHeader>
 
