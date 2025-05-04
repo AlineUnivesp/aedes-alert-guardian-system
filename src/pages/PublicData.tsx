@@ -19,7 +19,7 @@ const PublicData = () => {
     exportReports(format);
   };
 
-  // Calculate some statistics for the page
+  // Calcular estatísticas para a página
   const totalReports = reports.length;
   const uniqueLocations = new Set(
     reports.map(r => `${r.location.latitude},${r.location.longitude}`)
@@ -33,9 +33,9 @@ const PublicData = () => {
     <div className="container-content py-16">
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold">Public Data</h1>
+          <h1 className="text-3xl font-bold">Dados Públicos</h1>
           <p className="text-muted-foreground mt-2">
-            Access and download anonymous data about Aedes breeding sites in your region
+            Acesse e baixe dados anônimos sobre criadouros do Aedes aegypti em sua região
           </p>
         </div>
         
@@ -43,46 +43,46 @@ const PublicData = () => {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-2xl">{totalReports}</CardTitle>
-              <CardDescription>Total Reports</CardDescription>
+              <CardDescription>Total de Relatos</CardDescription>
             </CardHeader>
           </Card>
           
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-2xl">{uniqueLocations}</CardTitle>
-              <CardDescription>Unique Locations</CardDescription>
+              <CardDescription>Locais Únicos</CardDescription>
             </CardHeader>
           </Card>
           
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-2xl">{imagePercentage}%</CardTitle>
-              <CardDescription>Reports with Images</CardDescription>
+              <CardDescription>Relatos com Imagens</CardDescription>
             </CardHeader>
           </Card>
         </div>
         
         <Card>
           <CardHeader>
-            <CardTitle>Download Data</CardTitle>
+            <CardTitle>Baixar Dados</CardTitle>
             <CardDescription>
-              Download anonymized data about breeding sites. No personal information is included.
+              Baixe dados anonimizados sobre criadouros. Nenhuma informação pessoal está incluída.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="json" className="w-full">
               <TabsList className="grid w-full max-w-md grid-cols-2">
-                <TabsTrigger value="json">JSON Format</TabsTrigger>
-                <TabsTrigger value="csv">CSV Format</TabsTrigger>
+                <TabsTrigger value="json">Formato JSON</TabsTrigger>
+                <TabsTrigger value="csv">Formato CSV</TabsTrigger>
               </TabsList>
               
               <TabsContent value="json" className="p-4 border rounded-md mt-4">
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-medium mb-2">About JSON Format</h3>
+                    <h3 className="font-medium mb-2">Sobre o formato JSON</h3>
                     <p className="text-sm text-muted-foreground">
-                      JSON (JavaScript Object Notation) is best for developers and data analysts 
-                      who need structured data for applications or advanced analysis.
+                      JSON (JavaScript Object Notation) é melhor para desenvolvedores e analistas de dados 
+                      que precisam de dados estruturados para aplicações ou análises avançadas.
                     </p>
                   </div>
                   
@@ -90,8 +90,8 @@ const PublicData = () => {
                     <pre>{`[
   {
     "id": "1",
-    "title": "Water container in abandoned lot",
-    "description": "Found multiple containers collecting rainwater",
+    "title": "Recipiente de água em terreno abandonado",
+    "description": "Encontrados vários recipientes acumulando água da chuva",
     "location": {
       "latitude": -23.5505,
       "longitude": -46.6333,
@@ -100,7 +100,7 @@ const PublicData = () => {
     "imageUrl": "...",
     "createdAt": "2025-04-28T15:30:45Z"
   },
-  // more reports...
+  // mais relatos...
 ]`}</pre>
                   </div>
                   
@@ -109,7 +109,7 @@ const PublicData = () => {
                     onClick={() => handleExport("json")}
                   >
                     <FileJson className="h-4 w-4" />
-                    Download JSON
+                    Baixar JSON
                   </Button>
                 </div>
               </TabsContent>
@@ -117,17 +117,17 @@ const PublicData = () => {
               <TabsContent value="csv" className="p-4 border rounded-md mt-4">
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-medium mb-2">About CSV Format</h3>
+                    <h3 className="font-medium mb-2">Sobre o formato CSV</h3>
                     <p className="text-sm text-muted-foreground">
-                      CSV (Comma-Separated Values) is best for spreadsheet applications like 
-                      Microsoft Excel or Google Sheets for simple viewing and basic analysis.
+                      CSV (Comma-Separated Values) é melhor para aplicativos de planilha como 
+                      Microsoft Excel ou Google Sheets para visualização simples e análise básica.
                     </p>
                   </div>
                   
                   <div className="bg-muted/60 p-3 rounded text-xs overflow-x-auto">
-                    <pre>{`id,title,description,latitude,longitude,address,imageUrl,createdAt
-1,"Water container in abandoned lot","Found multiple containers collecting rainwater",-23.5505,-46.6333,"Av. Paulista, 1000, São Paulo - SP","...","2025-04-28T15:30:45Z"
-2,"Clogged gutter","Clogged rain gutter with standing water",-23.5605,-46.6433,"Rua Augusta, 500, São Paulo - SP","","2025-04-27T10:15:30Z"
+                    <pre>{`id,titulo,descricao,latitude,longitude,endereco,imageUrl,criadoEm
+1,"Recipiente de água em terreno abandonado","Encontrados vários recipientes acumulando água da chuva",-23.5505,-46.6333,"Av. Paulista, 1000, São Paulo - SP","...","2025-04-28T15:30:45Z"
+2,"Calha entupida","Calha de chuva entupida com água parada",-23.5605,-46.6433,"Rua Augusta, 500, São Paulo - SP","","2025-04-27T10:15:30Z"
 ...`}</pre>
                   </div>
                   
@@ -136,7 +136,7 @@ const PublicData = () => {
                     onClick={() => handleExport("csv")}
                   >
                     <FileText className="h-4 w-4" />
-                    Download CSV
+                    Baixar CSV
                   </Button>
                 </div>
               </TabsContent>
@@ -144,19 +144,19 @@ const PublicData = () => {
           </CardContent>
           <CardFooter className="flex justify-center border-t pt-6">
             <p className="text-sm text-muted-foreground max-w-md text-center">
-              This data is provided for research, educational, and public health purposes.
-              No personal information about users who reported the breeding sites is included.
+              Estes dados são fornecidos para fins de pesquisa, educação e saúde pública.
+              Nenhuma informação pessoal sobre os usuários que relataram os criadouros está incluída.
             </p>
           </CardFooter>
         </Card>
 
         <div className="bg-muted/30 p-6 rounded-lg">
-          <h2 className="text-xl font-bold mb-4">Data Usage Guidelines</h2>
+          <h2 className="text-xl font-bold mb-4">Diretrizes de Uso de Dados</h2>
           <ul className="list-disc list-inside space-y-2 text-sm">
-            <li>This data is freely available for non-commercial purposes.</li>
-            <li>Please cite "Aedes Guardian System - UNIVESP PI3 2025" when using this data in publications or presentations.</li>
-            <li>The data is provided "as is" with no guarantees of completeness or accuracy.</li>
-            <li>We encourage you to use this data to help combat mosquito-borne diseases in your community.</li>
+            <li>Estes dados estão disponíveis gratuitamente para fins não comerciais.</li>
+            <li>Por favor, cite "Sistema Aedes Guardian - UNIVESP PI3 2025" ao usar estes dados em publicações ou apresentações.</li>
+            <li>Os dados são fornecidos "como estão", sem garantias de completude ou precisão.</li>
+            <li>Incentivamos você a usar estes dados para ajudar a combater doenças transmitidas por mosquitos em sua comunidade.</li>
           </ul>
         </div>
       </div>

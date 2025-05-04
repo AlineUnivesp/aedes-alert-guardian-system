@@ -5,16 +5,17 @@ import { Button } from "@/components/ui/button";
 import AuthButton from "../auth/AuthButton";
 import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
   
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Public Data', href: '/public-data' },
-    { name: 'My Reports', href: '/my-reports' },
-    { name: 'About', href: '/about' }
+    { name: 'Início', href: '/' },
+    { name: 'Dados Públicos', href: '/public-data' },
+    { name: 'Meus Relatos', href: '/my-reports' },
+    { name: 'Sobre', href: '/about' }
   ];
 
   return (
@@ -40,7 +41,8 @@ const Navbar = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <AuthButton />
           
           {/* Mobile menu toggle */}
@@ -49,7 +51,7 @@ const Navbar = () => {
             size="icon"
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label="Abrir menu"
           >
             {isMobileMenuOpen ? (
               <X className="h-5 w-5" />

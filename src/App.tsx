@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ReportProvider } from "./contexts/ReportContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import Layout from "./components/layout/Layout";
 
 import Index from "./pages/Index";
@@ -20,19 +21,21 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <ReportProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout><Index /></Layout>} />
-              <Route path="/my-reports" element={<Layout><MyReports /></Layout>} />
-              <Route path="/public-data" element={<Layout><PublicData /></Layout>} />
-              <Route path="/about" element={<Layout><About /></Layout>} />
-              <Route path="*" element={<Layout><NotFound /></Layout>} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Layout><Index /></Layout>} />
+                <Route path="/my-reports" element={<Layout><MyReports /></Layout>} />
+                <Route path="/public-data" element={<Layout><PublicData /></Layout>} />
+                <Route path="/about" element={<Layout><About /></Layout>} />
+                <Route path="*" element={<Layout><NotFound /></Layout>} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
       </ReportProvider>
     </AuthProvider>
   </QueryClientProvider>

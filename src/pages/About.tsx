@@ -14,18 +14,18 @@ const About = () => {
     <div className="container-content py-16">
       <div className="space-y-8">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold">About Aedes Guardian</h1>
+          <h1 className="text-4xl font-bold">Sobre o Aedes Guardian</h1>
           <p className="text-muted-foreground mt-4 text-lg">
-            A community-driven initiative to monitor and combat the Aedes aegypti mosquito
+            Uma iniciativa comunitária para monitorar e combater o mosquito Aedes aegypti
           </p>
         </div>
 
         <Tabs defaultValue="project">
           <div className="flex justify-center mb-4">
             <TabsList>
-              <TabsTrigger value="project">The Project</TabsTrigger>
-              <TabsTrigger value="technical">Technical Details</TabsTrigger>
-              <TabsTrigger value="team">Our Team</TabsTrigger>
+              <TabsTrigger value="project">O Projeto</TabsTrigger>
+              <TabsTrigger value="technical">Detalhes Técnicos</TabsTrigger>
+              <TabsTrigger value="team">Nossa Equipe</TabsTrigger>
             </TabsList>
           </div>
           
@@ -34,10 +34,10 @@ const About = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Lightbulb className="h-5 w-5 text-primary" />
-                  Project Overview
+                  Visão Geral do Projeto
                 </CardTitle>
                 <CardDescription>
-                  Background and mission of the Aedes Guardian system
+                  Histórico e missão do sistema Aedes Guardian
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -61,35 +61,35 @@ const About = () => {
                   tecnologia, visando a melhoria da saúde pública em regiões vulneráveis.
                 </p>
                 
-                <h3 className="text-xl font-bold mt-6">Our Mission</h3>
+                <h3 className="text-xl font-bold mt-6">Nossa Missão</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2">
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <h4 className="font-bold mb-2 flex items-center gap-2">
                       <AlertTriangle className="h-4 w-4 text-amber-500" />
-                      Awareness
+                      Conscientização
                     </h4>
                     <p className="text-sm">
-                      Raise community awareness about Aedes aegypti mosquito breeding sites and the diseases they transmit.
+                      Aumentar a conscientização da comunidade sobre criadouros do mosquito Aedes aegypti e as doenças que ele transmite.
                     </p>
                   </div>
                   
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <h4 className="font-bold mb-2 flex items-center gap-2">
                       <Bug className="h-4 w-4 text-primary" />
-                      Monitoring
+                      Monitoramento
                     </h4>
                     <p className="text-sm">
-                      Create a collaborative platform for identifying and reporting potential breeding sites.
+                      Criar uma plataforma colaborativa para identificação e relato de possíveis criadouros.
                     </p>
                   </div>
                   
                   <div className="bg-muted/30 p-4 rounded-lg">
                     <h4 className="font-bold mb-2 flex items-center gap-2">
                       <Users className="h-4 w-4 text-green-500" />
-                      Community Engagement
+                      Engajamento Comunitário
                     </h4>
                     <p className="text-sm">
-                      Encourage citizen participation through gamification and recognition systems.
+                      Incentivar a participação cidadã através de sistemas de gamificação e reconhecimento.
                     </p>
                   </div>
                 </div>
@@ -102,56 +102,56 @@ const About = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Code className="h-5 w-5 text-primary" />
-                  Technical Information
+                  Informações Técnicas
                 </CardTitle>
                 <CardDescription>
-                  System architecture and technologies used
+                  Arquitetura do sistema e tecnologias utilizadas
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p>
-                  The Aedes Guardian system was developed using modern web technologies to ensure 
-                  accessibility, responsiveness, and a fluid user experience across different devices.
+                  O sistema Aedes Guardian foi desenvolvido usando tecnologias web modernas para garantir 
+                  acessibilidade, responsividade e uma experiência de usuário fluida em diferentes dispositivos.
                 </p>
                 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-bold">Frontend Technologies</h3>
+                    <h3 className="text-lg font-bold">Tecnologias Frontend</h3>
                     <ul className="list-disc list-inside mt-2 space-y-1">
-                      <li>React with TypeScript for type safety and better developer experience</li>
-                      <li>Tailwind CSS for responsive design and consistent styling</li>
-                      <li>ShadCN UI for accessible and customizable components</li>
-                      <li>Leaflet for interactive maps</li>
-                      <li>React Router for client-side navigation</li>
-                      <li>React Query for efficient data fetching</li>
+                      <li>React com TypeScript para segurança de tipos e melhor experiência de desenvolvimento</li>
+                      <li>Tailwind CSS para design responsivo e estilização consistente</li>
+                      <li>ShadCN UI para componentes acessíveis e personalizáveis</li>
+                      <li>Leaflet para mapas interativos</li>
+                      <li>React Router para navegação do lado do cliente</li>
+                      <li>React Query para busca eficiente de dados</li>
                     </ul>
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-bold">Key Features</h3>
+                    <h3 className="text-lg font-bold">Principais Recursos</h3>
                     <ul className="list-disc list-inside mt-2 space-y-1">
-                      <li>User authentication system</li>
-                      <li>Geolocation support for reporting breeding sites</li>
-                      <li>Interactive map visualization of reported sites</li>
-                      <li>Gamification with points and achievement titles</li>
-                      <li>Image upload for visual documentation</li>
-                      <li>Data export in multiple formats for research purposes</li>
-                      <li>Responsive design for mobile and desktop use</li>
+                      <li>Sistema de autenticação de usuários</li>
+                      <li>Suporte à geolocalização para relato de criadouros</li>
+                      <li>Visualização interativa de mapa dos locais relatados</li>
+                      <li>Gamificação com pontos e títulos de conquistas</li>
+                      <li>Upload de imagens para documentação visual</li>
+                      <li>Exportação de dados em múltiplos formatos para pesquisa</li>
+                      <li>Design responsivo para uso em dispositivos móveis e desktop</li>
                     </ul>
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-bold">Accessibility</h3>
+                    <h3 className="text-lg font-bold">Acessibilidade</h3>
                     <p className="mt-1">
-                      The application follows WCAG guidelines to ensure accessibility for all users:
+                      A aplicação segue as diretrizes WCAG para garantir acessibilidade para todos os usuários:
                     </p>
                     <ul className="list-disc list-inside mt-2 space-y-1">
-                      <li>Semantic HTML structure</li>
-                      <li>ARIA attributes for interactive elements</li>
-                      <li>Keyboard navigation support</li>
-                      <li>Color contrast compliance</li>
-                      <li>Screen reader friendly content</li>
-                      <li>Responsive design for different devices</li>
+                      <li>Estrutura HTML semântica</li>
+                      <li>Atributos ARIA para elementos interativos</li>
+                      <li>Suporte à navegação por teclado</li>
+                      <li>Conformidade de contraste de cores</li>
+                      <li>Conteúdo amigável para leitores de tela</li>
+                      <li>Design responsivo para diferentes dispositivos</li>
                     </ul>
                   </div>
                 </div>
@@ -164,27 +164,27 @@ const About = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" />
-                  Development Team
+                  Equipe de Desenvolvimento
                 </CardTitle>
                 <CardDescription>
-                  Meet the students behind the Aedes Guardian project
+                  Conheça os estudantes por trás do projeto Aedes Guardian
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <p>
-                    The Aedes Guardian system was developed by a team of UNIVESP students from the
-                    Computing area, including Information Technology, Data Science, and Computer Engineering
-                    courses, as part of the Integrator Project III (PI3) in the first semester of 2025.
+                    O sistema Aedes Guardian foi desenvolvido por uma equipe de estudantes da UNIVESP da
+                    área de Computação, incluindo os cursos de Tecnologia da Informação, Ciência de Dados e Engenharia da Computação,
+                    como parte do Projeto Integrador III (PI3) no primeiro semestre de 2025.
                   </p>
                   
                   <div>
-                    <h3 className="text-lg font-bold mb-4">Team Members</h3>
+                    <h3 className="text-lg font-bold mb-4">Membros da Equipe</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* Sample team member cards - would be replaced with actual team information */}
+                      {/* Cartões de membros da equipe - seriam substituídos por informações reais da equipe */}
                       {[1, 2, 3, 4, 5].map((i) => (
                         <div key={i} className="bg-muted/30 p-4 rounded-lg">
-                          <h4 className="font-bold">Student Name</h4>
+                          <h4 className="font-bold">Nome do Estudante</h4>
                           <p className="text-sm text-muted-foreground">Polo UNIVESP</p>
                           <p className="text-xs mt-1">Curso de Tecnologia da Informação</p>
                         </div>
@@ -193,11 +193,11 @@ const About = () => {
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-bold">Academic Supervision</h3>
+                    <h3 className="text-lg font-bold">Supervisão Acadêmica</h3>
                     <p className="mt-1">
-                      This project was developed under the guidance of professors from the 
-                      Universidade Virtual do Estado de São Paulo (UNIVESP) as part of the 
-                      curriculum requirements.
+                      Este projeto foi desenvolvido sob a orientação dos professores da 
+                      Universidade Virtual do Estado de São Paulo (UNIVESP) como parte das 
+                      exigências curriculares.
                     </p>
                   </div>
                 </div>
