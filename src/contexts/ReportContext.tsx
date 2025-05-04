@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { toast } from "@/components/ui/sonner";
@@ -106,7 +105,6 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       // For now, we'll just use our state since it's already loaded
       await new Promise(resolve => setTimeout(resolve, 500));
       setIsLoading(false);
-      return reports;
     } catch (error) {
       console.error("Failed to fetch reports:", error);
       toast.error("Failed to load reports");
