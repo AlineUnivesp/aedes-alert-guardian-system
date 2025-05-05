@@ -117,14 +117,14 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const fileName = `${user.id}/${uuidv4()}.${fileExt}`;
         const filePath = `${fileName}`;
         
-        // Converter base64 para arquivo
-        const base64Data = imageUrl.split(',')[1];
-        const dataBuffer = Buffer.from(base64Data, 'base64');
+        // Converter base64 para Blob (compatível com browser)
+        const fetchResponse = await fetch(imageUrl);
+        const blob = await fetchResponse.blob();
         
-        // Upload da imagem
+        // Upload da imagem usando Blob
         const { data: storageData, error: storageError } = await supabase.storage
           .from('reports')
-          .upload(filePath, dataBuffer, {
+          .upload(filePath, blob, {
             contentType: `image/${fileExt}`,
             upsert: true
           });
