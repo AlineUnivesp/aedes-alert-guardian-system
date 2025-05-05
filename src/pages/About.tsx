@@ -180,15 +180,30 @@ const About = () => {
                   
                   <div>
                     <h3 className="text-lg font-bold mb-4">Membros da Equipe</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* Cartões de membros da equipe - seriam substituídos por informações reais da equipe */}
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <div key={i} className="bg-muted/30 p-4 rounded-lg">
-                          <h4 className="font-bold">Nome do Estudante</h4>
-                          <p className="text-sm text-muted-foreground">Polo UNIVESP</p>
-                          <p className="text-xs mt-1">Curso de Tecnologia da Informação</p>
-                        </div>
-                      ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="bg-muted/30 p-4 rounded-lg">
+                        <h4 className="font-bold">Aline</h4>
+                        <p className="text-sm text-muted-foreground">Univesp Baixada Santista</p>
+                        <p className="text-xs mt-1">Eixo Computação</p>
+                      </div>
+                      
+                      <div className="bg-muted/30 p-4 rounded-lg">
+                        <h4 className="font-bold">Fátima</h4>
+                        <p className="text-sm text-muted-foreground">Univesp Baixada Santista</p>
+                        <p className="text-xs mt-1">Eixo Computação</p>
+                      </div>
+                      
+                      <div className="bg-muted/30 p-4 rounded-lg">
+                        <h4 className="font-bold">Mateus</h4>
+                        <p className="text-sm text-muted-foreground">Univesp Baixada Santista</p>
+                        <p className="text-xs mt-1">Eixo Computação</p>
+                      </div>
+                      
+                      <div className="bg-muted/30 p-4 rounded-lg">
+                        <h4 className="font-bold">José</h4>
+                        <p className="text-sm text-muted-foreground">Univesp Baixada Santista</p>
+                        <p className="text-xs mt-1">Eixo Computação</p>
+                      </div>
                     </div>
                   </div>
                   
