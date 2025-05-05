@@ -49,16 +49,20 @@ const UserReportCharts = () => {
     };
   });
   
+  // Fixed chart config to match the expected ChartConfig type
   const chartConfig = {
-    daily: {
-      positive: "var(--green)",
-      negative: "var(--red)",
+    primary: {
+      color: "var(--primary)"
     },
-    monthly: {
-      low: "var(--green)",
-      mid: "var(--amber)",
-      high: "var(--primary)",
+    secondary: {
+      color: "var(--secondary)"
     },
+    success: {
+      color: "var(--green)"
+    },
+    warning: {
+      color: "var(--amber)"
+    }
   };
   
   return (
