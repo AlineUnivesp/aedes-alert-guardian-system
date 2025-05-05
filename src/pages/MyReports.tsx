@@ -5,12 +5,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import ReportList from "@/components/reports/ReportList";
 import ReportDialog from "@/components/reports/ReportDialog";
 import UserProgress from "@/components/dashboard/UserProgress";
-import UserReportStats from "@/components/dashboard/UserReportStats";
-import UserReportCharts from "@/components/dashboard/UserReportCharts";
 import { Button } from "@/components/ui/button";
 import { Plus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const MyReports = () => {
   const { userReports, isLoading } = useReports();
@@ -53,21 +50,8 @@ const MyReports = () => {
           </Button>
         </div>
         
-        {/* Dashboard de Estatísticas */}
-        <UserReportStats />
-        
-        {/* Gráficos */}
-        <UserReportCharts />
-        
-        <Tabs defaultValue="list" className="mt-8">
-          <div className="flex justify-between items-center mb-4">
-            <TabsList>
-              <TabsTrigger value="list">Lista</TabsTrigger>
-              <TabsTrigger value="progress">Progresso</TabsTrigger>
-            </TabsList>
-          </div>
-          
-          <TabsContent value="list">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-3">
             {isLoading ? (
               <div className="flex justify-center items-center h-64">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -79,12 +63,12 @@ const MyReports = () => {
                 emptyMessage="Você ainda não denunciou nenhum foco. Comece a contribuir agora!"
               />
             )}
-          </TabsContent>
+          </div>
           
-          <TabsContent value="progress">
+          <div className="lg:col-span-1">
             <UserProgress />
-          </TabsContent>
-        </Tabs>
+          </div>
+        </div>
       </div>
       
       <ReportDialog 

@@ -3,7 +3,6 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { User, Session } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
 
 type UserProfile = {
   id: string;
@@ -29,7 +28,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<UserProfile | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   // Função para carregar o perfil do usuário
   const loadUserProfile = async (userId: string) => {
@@ -52,9 +50,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           points: data.points,
           createdAt: data.created_at
         });
-        
-        // Redirecionar para a página "Minhas Denúncias" após login
-        navigate("/my-reports");
       }
     } catch (error) {
       console.error("Erro ao carregar perfil:", error);
@@ -76,10 +71,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }, 0);
         } else {
           setUser(null);
-          // Redirecionar para a página principal após logout
-          if (event === 'SIGNED_OUT') {
-            navigate('/');
-          }
         }
       }
     );
@@ -98,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate]);
+  }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
