@@ -1,8 +1,10 @@
 
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { isAuthenticated } = useAuth();
   
   return (
     <footer className="border-t mt-auto py-6 bg-muted/30">
@@ -17,6 +19,9 @@ const Footer = () => {
           <nav className="flex items-center gap-4 text-sm">
             <Link to="/" className="hover:text-primary transition-colors">Início</Link>
             <Link to="/public-data" className="hover:text-primary transition-colors">Dados Públicos</Link>
+            {isAuthenticated && (
+              <Link to="/my-reports" className="hover:text-primary transition-colors">Minhas Denúncias</Link>
+            )}
             <Link to="/about" className="hover:text-primary transition-colors">Sobre</Link>
           </nav>
         </div>

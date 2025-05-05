@@ -6,17 +6,27 @@ import AuthButton from "../auth/AuthButton";
 import { Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ThemeToggle } from "../theme/ThemeToggle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { isAuthenticated } = useAuth();
   
-  const navLinks = [
+  // Lista de links básicos que sempre aparecem
+  const baseNavLinks = [
     { name: 'Início', href: '/' },
     { name: 'Dados Públicos', href: '/public-data' },
-    { name: 'Meus Relatos', href: '/my-reports' },
     { name: 'Sobre', href: '/about' }
   ];
+  
+  // Link de Minhas Denúncias que só aparece quando autenticado
+  const authNavLinks = isAuthenticated 
+    ? [{ name: 'Minhas Denúncias', href: '/my-reports' }]
+    : [];
+  
+  // Combinando os links base com os links autenticados
+  const navLinks = [...baseNavLinks, ...authNavLinks];
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
