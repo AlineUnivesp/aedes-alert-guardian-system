@@ -19,13 +19,13 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <BrowserRouter>
-      <AuthProvider>
-        <ReportProvider>
-          <ThemeProvider>
-            <TooltipProvider>
-              <Toaster />
-              <Sonner />
+    <AuthProvider>
+      <ReportProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Layout><Index /></Layout>} />
                 <Route path="/my-reports" element={<Layout><MyReports /></Layout>} />
@@ -33,11 +33,11 @@ const App = () => (
                 <Route path="/about" element={<Layout><About /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
-            </TooltipProvider>
-          </ThemeProvider>
-        </ReportProvider>
-      </AuthProvider>
-    </BrowserRouter>
+            </BrowserRouter>
+          </TooltipProvider>
+        </ThemeProvider>
+      </ReportProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

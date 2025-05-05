@@ -1,3 +1,4 @@
+
 import { formatDate } from "@/lib/utils";
 import { 
   Dialog,
@@ -10,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, User } from "lucide-react";
-import type { Report } from "@/types/report.types";
+import type { Report } from "@/contexts/ReportContext";
 
 interface ReportDetailProps {
   report: Report | null;
