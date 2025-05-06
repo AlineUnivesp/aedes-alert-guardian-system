@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "./AuthModal";
-import { LogIn, LogOut, User, Menu } from "lucide-react";
+import { LogIn, LogOut, User, Menu, Award } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getUserTitle } from "@/lib/gamification";
+import { Link } from "react-router-dom";
 
 const AuthButton = () => {
   const { user, isAuthenticated, logout } = useAuth();
@@ -40,7 +41,13 @@ const AuthButton = () => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <a href="/my-reports" className="cursor-pointer">Minhas Denúncias</a>
+            <Link to="/my-reports" className="cursor-pointer">Minhas Denúncias</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/gamification" className="cursor-pointer flex items-center gap-1">
+              <Award className="h-4 w-4 mr-1" />
+              Gamificação e Ranking
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
             <LogOut className="mr-2 h-4 w-4" />

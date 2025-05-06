@@ -20,9 +20,12 @@ const Navbar = () => {
     { name: 'Sobre', href: '/about' }
   ];
   
-  // Link de Minhas Denúncias que só aparece quando autenticado
+  // Links que só aparecem quando autenticado
   const authNavLinks = isAuthenticated 
-    ? [{ name: 'Minhas Denúncias', href: '/my-reports' }]
+    ? [
+        { name: 'Minhas Denúncias', href: '/my-reports' },
+        { name: 'Gamificação', href: '/gamification' }
+      ]
     : [];
   
   // Combinando os links base com os links autenticados

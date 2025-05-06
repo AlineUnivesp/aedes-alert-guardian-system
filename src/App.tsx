@@ -13,6 +13,7 @@ import Index from "./pages/Index";
 import MyReports from "./pages/MyReports";
 import PublicData from "./pages/PublicData";
 import About from "./pages/About";
+import Gamification from "./pages/Gamification";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
                 <Route path="/my-reports" element={<Layout><MyReports /></Layout>} />
                 <Route path="/public-data" element={<Layout><PublicData /></Layout>} />
                 <Route path="/about" element={<Layout><About /></Layout>} />
+                <Route path="/gamification" element={<Layout><Gamification /></Layout>} />
                 <Route path="*" element={<Layout><NotFound /></Layout>} />
               </Routes>
             </BrowserRouter>
