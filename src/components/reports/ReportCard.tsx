@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Trash2 } from "lucide-react";
-import type { Report } from "@/types/report.types";
+import type { Report } from "@/contexts/ReportContext";
 import { useState } from "react";
 import {
   AlertDialog,

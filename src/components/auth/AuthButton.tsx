@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Importando o Link do react-router-dom
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "./AuthModal";
@@ -41,7 +40,7 @@ const AuthButton = () => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link to="/my-reports" className="cursor-pointer w-full">Minhas Denúncias</Link>
+            <a href="/my-reports" className="cursor-pointer">Minhas Denúncias</a>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
             <LogOut className="mr-2 h-4 w-4" />

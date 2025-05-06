@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import { Report } from "@/types/report.types";
+import { Report } from "@/contexts/ReportContext";
 import { Card } from "@/components/ui/card";
 import ReportDetail from "./ReportDetail";
 import { Loader2 } from "lucide-react";

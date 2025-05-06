@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Report } from "@/types/report.types";
+import { Report } from "@/contexts/ReportContext";
 import ReportCard from "./ReportCard";
 import ReportDetail from "./ReportDetail";
 import { Input } from "@/components/ui/input";
