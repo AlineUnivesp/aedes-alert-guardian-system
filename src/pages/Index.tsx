@@ -19,7 +19,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1 space-y-4">
               <h1 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight">
-                Sistema Guardião de Alerta Aedes
+                Sistema Guardião de Monitoramento e Combate ao Aedes aegypti
               </h1>
               <p className="text-lg opacity-90">
                 Junte-se ao esforço comunitário para monitorar e combater focos do mosquito Aedes aegypti em sua região.
