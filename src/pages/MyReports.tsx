@@ -5,9 +5,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import ReportList from "@/components/reports/ReportList";
 import ReportDialog from "@/components/reports/ReportDialog";
 import UserProgress from "@/components/dashboard/UserProgress";
+import UserDashboard from "@/components/reports/UserDashboard";
 import { Button } from "@/components/ui/button";
 import { Plus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const MyReports = () => {
   const { userReports, isLoading } = useReports();
@@ -50,25 +52,46 @@ const MyReports = () => {
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
-            {isLoading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="reports">Denúncias</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              <div className="lg:col-span-3">
+                <UserDashboard reports={userReports} isLoading={isLoading} />
               </div>
-            ) : (
-              <ReportList 
-                reports={userReports}
-                showActions
-                emptyMessage="Você ainda não denunciou nenhum foco. Comece a contribuir agora!"
-              />
-            )}
-          </div>
-          
-          <div className="lg:col-span-1">
-            <UserProgress />
-          </div>
-        </div>
+              
+              <div className="lg:col-span-1">
+                <UserProgress />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reports">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              <div className="lg:col-span-3">
+                {isLoading ? (
+                  <div className="flex justify-center items-center h-64">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  </div>
+                ) : (
+                  <ReportList 
+                    reports={userReports}
+                    showActions
+                    emptyMessage="Você ainda não denunciou nenhum foco. Comece a contribuir agora!"
+                  />
+                )}
+              </div>
+              
+              <div className="lg:col-span-1">
+                <UserProgress />
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
       
       <ReportDialog 
