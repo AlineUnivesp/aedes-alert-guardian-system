@@ -50,14 +50,20 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   // Converter dados do Supabase para o formato Report
   const mapDbReportToReport = async (dbReport: any): Promise<Report> => {
     // Buscar informações do usuário que criou o relatório
-    const { data: profileData, error: profileError } = await supabase
-      .from("profiles")
-      .select("name")
-      .eq("id", dbReport.user_id)
-      .single();
+    let userName = "Usuário";
     
-    if (profileError) {
-      console.error("Erro ao buscar nome do usuário:", profileError);
+    try {
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("name")
+        .eq("id", dbReport.user_id)
+        .single();
+      
+      if (!profileError && profileData) {
+        userName = profileData.name;
+      }
+    } catch (error) {
+      console.error("Erro ao buscar nome do usuário:", error);
     }
 
     return {
@@ -72,7 +78,7 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       imageUrl: dbReport.image_url,
       createdAt: dbReport.created_at,
       userId: dbReport.user_id,
-      userName: profileData?.name || "Usuário",
+      userName: userName,
     };
   };
 
@@ -117,14 +123,13 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         const fileName = `${user.id}/${uuidv4()}.${fileExt}`;
         const filePath = `${fileName}`;
         
-        // Converter base64 para arquivo
+        // Converter base64 para formato aceito pelo Supabase
         const base64Data = imageUrl.split(',')[1];
-        const dataBuffer = Buffer.from(base64Data, 'base64');
         
-        // Upload da imagem
+        // Realizar o upload direto com a string base64
         const { data: storageData, error: storageError } = await supabase.storage
           .from('reports')
-          .upload(filePath, dataBuffer, {
+          .upload(filePath, decode(base64Data), {
             contentType: `image/${fileExt}`,
             upsert: true
           });
@@ -201,6 +206,26 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Função para decodificar strings base64 para Blob
+  const decode = (base64: string): Blob => {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+    
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+    
+    return new Blob(byteArrays, { type: 'application/octet-stream' });
   };
 
   const deleteReport = async (id: string) => {
