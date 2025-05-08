@@ -22,8 +22,6 @@ const MapView = ({ reports }: MapViewProps) => {
   const leafletMapRef = useRef<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
-  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // Load Leaflet scripts dynamically
   useEffect(() => {
@@ -114,11 +112,9 @@ const MapView = ({ reports }: MapViewProps) => {
         .addTo(map)
         .bindPopup(`<b>${report.title}</b><br>${report.location.address}`);
         
-      marker.on('click', () => {
-        setSelectedReport(report);
-        setIsDetailOpen(true);
-      });
-        
+      // Removido o evento de clique que abria o ReportDetail
+      // Agora só teremos o comportamento padrão do bindPopup
+      
       return marker;
     });
 
@@ -147,12 +143,6 @@ const MapView = ({ reports }: MapViewProps) => {
         )}
         <div ref={mapRef} className="w-full h-full" />
       </Card>
-      
-      <ReportDetail
-        report={selectedReport}
-        isOpen={isDetailOpen}
-        onClose={() => setIsDetailOpen(false)}
-      />
     </div>
   );
 };
