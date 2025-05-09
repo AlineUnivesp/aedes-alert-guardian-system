@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -21,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Award, Trophy, Medal, Star, Users } from "lucide-react";
+import { toast } from "@/components/ui/sonner";
 
 // Tipo para usuário do ranking
 type RankUser = {
@@ -208,64 +210,79 @@ const Gamification = () => {
   const [rankUsers, setRankUsers] = useState<RankUser[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Buscar dados do ranking
-  useEffect(() => {
-    const fetchRanking = async () => {
-      try {
-        // Buscar todos os perfis de usuários - removendo o filtro por usuário atual
-        const { data: profiles, error: profilesError } = await supabase
-          .from("profiles")
-          .select("id, name, points")
-          .order("points", { ascending: false })
-          .limit(20);
+  // Função para buscar dados do ranking
+  const fetchRanking = async () => {
+    try {
+      setIsLoading(true);
+      console.log("Buscando dados de ranking...");
+      
+      // Buscar todos os perfis de usuários
+      const { data: profiles, error: profilesError } = await supabase
+        .from("profiles")
+        .select("id, name, points")
+        .order("points", { ascending: false })
+        .limit(20);
 
-        if (profilesError) {
-          throw profilesError;
-        }
-
-        // Obter contagens de denúncias para cada usuário
-        if (profiles && profiles.length > 0) {
-          // Buscar contagem de denúncias para cada usuário
-          const reportCountPromises = profiles.map(async (profile) => {
-            const { count, error } = await supabase
-              .from("reports")
-              .select("id", { count: "exact", head: true })
-              .eq("user_id", profile.id);
-              
-            return {
-              id: profile.id,
-              reportCount: count || 0,
-              error
-            };
-          });
-
-          const reportCounts = await Promise.all(reportCountPromises);
-          
-          // Combinar perfis com contagens de denúncias
-          const usersWithCounts: RankUser[] = profiles.map((profile) => {
-            const reportData = reportCounts.find(r => r.id === profile.id);
-            const reportCount = reportData?.reportCount || 0;
-            return {
-              id: profile.id,
-              name: profile.name,
-              points: profile.points,
-              reportCount: reportCount,
-              title: getUserTitle(profile.points)
-            };
-          });
-
-          // Ordenar por pontos (decrescente)
-          usersWithCounts.sort((a, b) => b.points - a.points);
-          
-          setRankUsers(usersWithCounts);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados do ranking:", error);
-      } finally {
-        setIsLoading(false);
+      if (profilesError) {
+        console.error("Erro ao buscar perfis:", profilesError);
+        toast.error("Erro ao carregar usuários do ranking");
+        throw profilesError;
       }
-    };
 
+      console.log("Perfis obtidos:", profiles?.length || 0);
+
+      // Obter contagens de denúncias para cada usuário
+      if (profiles && profiles.length > 0) {
+        // Buscar contagem de denúncias para cada usuário
+        const reportCountPromises = profiles.map(async (profile) => {
+          const { count, error } = await supabase
+            .from("reports")
+            .select("id", { count: "exact", head: true })
+            .eq("user_id", profile.id);
+            
+          if (error) {
+            console.error(`Erro ao buscar contagem para usuário ${profile.id}:`, error);
+          }
+            
+          return {
+            id: profile.id,
+            reportCount: count || 0,
+            error
+          };
+        });
+
+        const reportCounts = await Promise.all(reportCountPromises);
+        console.log("Contagens de denúncias obtidas");
+        
+        // Combinar perfis com contagens de denúncias
+        const usersWithCounts: RankUser[] = profiles.map((profile) => {
+          const reportData = reportCounts.find(r => r.id === profile.id);
+          const reportCount = reportData?.reportCount || 0;
+          return {
+            id: profile.id,
+            name: profile.name,
+            points: profile.points,
+            reportCount: reportCount,
+            title: getUserTitle(profile.points)
+          };
+        });
+
+        // Ordenar por pontos (decrescente)
+        usersWithCounts.sort((a, b) => b.points - a.points);
+        console.log("Ranking final de usuários:", usersWithCounts.length);
+        
+        setRankUsers(usersWithCounts);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados do ranking:", error);
+      toast.error("Erro ao carregar ranking de usuários");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Buscar dados do ranking quando o componente montar
+  useEffect(() => {
     if (isAuthenticated) {
       fetchRanking();
     }
