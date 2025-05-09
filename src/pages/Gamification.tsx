@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -213,7 +212,7 @@ const Gamification = () => {
   useEffect(() => {
     const fetchRanking = async () => {
       try {
-        // Primeiro buscar os perfis dos usuários
+        // Buscar todos os perfis de usuários - removendo o filtro por usuário atual
         const { data: profiles, error: profilesError } = await supabase
           .from("profiles")
           .select("id, name, points")
