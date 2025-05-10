@@ -1,73 +1,82 @@
-# Welcome to your Lovable project
+# Bem-vindo ao Projeto Integrador III da Univesp - Sistema Web de Monitoramento e Combate ao Aedes aegypti (Aedes Guard)
 
-## Project info
+**Link Principal**: https://aedesysguardian.vercel.app
+
+Este projeto foi desenvolvido com o objetivo de unir teoria e prática no desenvolvimento de soluções tecnológicas aplicadas à saúde pública, com foco no monitoramento, prevenção e combate ao mosquito Aedes aegypti, transmissor de doenças como dengue, zika e chikungunya.
+Trata-se de uma plataforma web intuitiva, interativa e acessível, permitindo que cidadãos, agentes de saúde e gestores públicos colaborem de maneira eficiente na identificação de focos do mosquito, denúncias de possíveis criadouros, acompanhamento de casos e disseminação de informações confiáveis.
+Desenvolvido para fins educacionais, este sistema visa também fomentar o trabalho em equipe, a integração de conhecimentos multidisciplinares e a aplicação prática de conceitos de programação, banco de dados, design de interfaces, segurança da informação, geolocalização e análise de dados.
+Agradecemos por acessar nosso projeto e convidamos você a explorar a plataforma e conhecer de perto como a tecnologia pode ser uma aliada no enfrentamento de problemas reais da sociedade.
+
+## Informações do Projeto
 
 **URL**: https://lovable.dev/projects/9c716550-cff4-49bd-b563-0caab9be52ba
 
-## How can I edit this code?
+## Como posso editar este código?
 
-There are several ways of editing your application.
+Existem várias maneiras de editar sua aplicação.
 
-**Use Lovable**
+**Usar o Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/9c716550-cff4-49bd-b563-0caab9be52ba) and start prompting.
+Simplesmente visite o [Projeto no Lovable](https://lovable.dev/projects/9c716550-cff4-49bd-b563-0caab9be52ba) e comece a enviar comandos por prompt.
 
-Changes made via Lovable will be committed automatically to this repo.
+As alterações feitas via Lovable serão automaticamente commitadas neste repositório.
 
-**Use your preferred IDE**
+**Usar seu editor de código preferido (IDE)**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Se quiser trabalhar localmente usando seu próprio editor, você pode clonar este repositório e enviar (push) suas alterações. As mudanças enviadas também serão refletidas no Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+O único requisito é ter o Node.js e npm instalados – [instale com nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
+Siga estes passos:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Etapa 1: Clone o repositório usando a URL do projeto git.
+git clone <SUA_URL_DO_REPOSITÓRIO_GIT.git>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Etapa 2: Acesse o diretório do projeto.
+cd <NOME_DO_SEU_PROJETO>
 
-# Step 3: Install the necessary dependencies.
+# Etapa 3: Instale as dependências necessárias.
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Etapa 4: Inicie o servidor de desenvolvimento com recarregamento automático e pré-visualização instantânea.
 npm run dev
+
 ```
 
-**Edit a file directly in GitHub**
+**Editar um arquivo diretamente no GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Navegue até o(s) arquivo(s) desejado(s).
+- Clique no botão "Edit" (ícone de lápis) no canto superior direito da visualização do arquivo.
+- Faça suas alterações e confirme o commit.
 
-**Use GitHub Codespaces**
+**Usar o GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Vá para a página principal do repositório.
+- Clique no botão "Code" (botão verde) no canto superior direito.
+- Selecione a aba "Codespaces".
+- Clique em "New codespace" para iniciar um novo ambiente de desenvolvimento.
+- Edite os arquivos diretamente no Codespace e faça commit/push quando terminar.
 
-## What technologies are used for this project?
+## Quais tecnologias são usadas neste projeto?
 
-This project is built with:
+Este projeto foi construído com:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
+- Vite  
+- TypeScript  
+- React  
+- shadcn-ui  
 - Tailwind CSS
+- Supabase
 
-## How can I deploy this project?
+## Como posso fazer o deploy deste projeto?
 
-Simply open [Lovable](https://lovable.dev/projects/9c716550-cff4-49bd-b563-0caab9be52ba) and click on Share -> Publish.
+Basta abrir o [Lovable](https://lovable.dev/projects/9c716550-cff4-49bd-b563-0caab9be52ba) e clicar em Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+## Posso conectar um domínio personalizado ao meu projeto Lovable?
 
-Yes, you can!
+Sim, você pode!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Para conectar um domínio, vá até Project > Settings > Domains e clique em Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Leia mais aqui: [Configurando um domínio personalizado](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
