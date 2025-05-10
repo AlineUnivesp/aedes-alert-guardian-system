@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Trash2 } from "lucide-react";
+import { MapPin, Calendar, Trash2, Edit } from "lucide-react";
 import type { Report } from "@/contexts/ReportContext";
 import { useState } from "react";
 import {
@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useReports } from "@/contexts/ReportContext";
 import { useAuth } from "@/contexts/AuthContext";
+import ReportEditDialog from "./ReportEditDialog";
 
 interface ReportCardProps {
   report: Report;
@@ -34,11 +35,12 @@ interface ReportCardProps {
 
 const ReportCard = ({ report, showActions = false, onClick }: ReportCardProps) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { deleteReport } = useReports();
   const { user } = useAuth();
   const [isDeleting, setIsDeleting] = useState(false);
   
-  const canDelete = user?.id === report.userId;
+  const canModify = user?.id === report.userId;
   
   const handleDelete = async () => {
     try {
@@ -86,19 +88,34 @@ const ReportCard = ({ report, showActions = false, onClick }: ReportCardProps) =
             {formatDate(report.createdAt)}
           </Badge>
           
-          {showActions && canDelete && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsDeleteDialogOpen(true);
-              }}
-            >
-              <Trash2 className="h-4 w-4" />
-              <span className="sr-only">Delete</span>
-            </Button>
+          {showActions && canModify && (
+            <div className="flex gap-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-blue-500 hover:text-blue-500 hover:bg-blue-50"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditDialogOpen(true);
+                }}
+              >
+                <Edit className="h-4 w-4" />
+                <span className="sr-only">Edit</span>
+              </Button>
+              
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsDeleteDialogOpen(true);
+                }}
+              >
+                <Trash2 className="h-4 w-4" />
+                <span className="sr-only">Delete</span>
+              </Button>
+            </div>
           )}
         </CardFooter>
       </Card>
@@ -106,13 +123,13 @@ const ReportCard = ({ report, showActions = false, onClick }: ReportCardProps) =
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Tem certeza?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this report. This action cannot be undone.
+              Esta ação excluirá permanentemente esta denúncia. Esta ação não poderá ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>Cancelar</AlertDialogCancel>
             <AlertDialogAction 
               onClick={(e) => {
                 e.preventDefault();
@@ -121,11 +138,17 @@ const ReportCard = ({ report, showActions = false, onClick }: ReportCardProps) =
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? "Excluindo..." : "Excluir"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <ReportEditDialog
+        isOpen={isEditDialogOpen}
+        onClose={() => setIsEditDialogOpen(false)}
+        report={report}
+      />
     </>
   );
 };

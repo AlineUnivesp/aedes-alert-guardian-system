@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { toast } from "@/components/ui/sonner";
@@ -26,6 +25,7 @@ interface ReportContextType {
   userReports: Report[];
   isLoading: boolean;
   addReport: (report: Omit<Report, "id" | "createdAt" | "userId" | "userName">) => Promise<void>;
+  updateReport: (id: string, report: Omit<Report, "id" | "createdAt" | "userId" | "userName">) => Promise<void>;
   deleteReport: (id: string) => Promise<void>;
   getReport: (id: string) => Report | undefined;
   fetchAllReports: () => Promise<void>;
@@ -228,6 +228,101 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return new Blob(byteArrays, { type: 'application/octet-stream' });
   };
 
+  const updateReport = async (id: string, reportData: Omit<Report, "id" | "createdAt" | "userId" | "userName">) => {
+    if (!user) {
+      toast.error("Você precisa estar logado para atualizar uma denúncia");
+      throw new Error("Usuário não autenticado");
+    }
+    
+    setIsLoading(true);
+    try {
+      // Verificar se o relatório existe e pertence ao usuário
+      const report = reports.find(r => r.id === id);
+      
+      if (!report) {
+        throw new Error("Denúncia não encontrada");
+      }
+      
+      if (report.userId !== user.id) {
+        throw new Error("Você só pode editar suas próprias denúncias");
+      }
+      
+      let imageUrl = reportData.imageUrl;
+      
+      // Se houver uma nova imagem, fazer upload para o Storage
+      if (imageUrl && imageUrl.startsWith('data:image')) {
+        const fileExt = imageUrl.split(';')[0].split('/')[1];
+        const fileName = `${user.id}/${uuidv4()}.${fileExt}`;
+        const filePath = `${fileName}`;
+        
+        // Converter base64 para formato aceito pelo Supabase
+        const base64Data = imageUrl.split(',')[1];
+        
+        // Realizar o upload direto com a string base64
+        const { data: storageData, error: storageError } = await supabase.storage
+          .from('reports')
+          .upload(filePath, decode(base64Data), {
+            contentType: `image/${fileExt}`,
+            upsert: true
+          });
+          
+        if (storageError) {
+          throw storageError;
+        }
+        
+        // Obter URL pública da imagem
+        const { data: { publicUrl } } = supabase.storage
+          .from('reports')
+          .getPublicUrl(filePath);
+          
+        imageUrl = publicUrl;
+        
+        // Se havia uma imagem anterior, excluir do Storage
+        if (report.imageUrl && report.imageUrl !== imageUrl) {
+          try {
+            const urlParts = report.imageUrl.split('/');
+            const oldFileName = urlParts[urlParts.length - 1];
+            const oldFilePath = `${user.id}/${oldFileName}`;
+            
+            await supabase.storage
+              .from('reports')
+              .remove([oldFilePath]);
+          } catch (storageError) {
+            console.error("Erro ao excluir imagem anterior:", storageError);
+          }
+        }
+      }
+      
+      // Atualizar relatório no banco de dados
+      const { data, error } = await supabase
+        .from("reports")
+        .update({
+          title: reportData.title,
+          description: reportData.description,
+          latitude: reportData.location.latitude,
+          longitude: reportData.location.longitude,
+          address: reportData.location.address,
+          image_url: imageUrl || report.imageUrl,
+        })
+        .eq("id", id)
+        .select()
+        .single();
+        
+      if (error) {
+        throw error;
+      }
+      
+      // Recarregar relatórios para atualizar a lista
+      await fetchAllReports();
+      
+    } catch (error: any) {
+      toast.error("Erro ao atualizar denúncia: " + error.message);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const deleteReport = async (id: string) => {
     if (!user) {
       toast.error("Você precisa estar logado para excluir uma denúncia");
@@ -332,6 +427,7 @@ export const ReportProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       userReports,
       isLoading,
       addReport,
+      updateReport,
       deleteReport,
       getReport,
       fetchAllReports,
